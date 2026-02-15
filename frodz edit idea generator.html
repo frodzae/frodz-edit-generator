@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FRODZ Edit Idea Generator</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #0f0f1a;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* RAIN BACKGROUND */
+.rain {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
+
+.drop {
+  position: absolute;
+  bottom: 100%;
+  width: 2px;
+  height: 20px;
+  background: rgba(255,255,255,0.3);
+  animation: rain 1s linear infinite;
+  will-change: transform;
+}
+
+@keyframes rain {
+  to {
+    transform: translateY(110vh);
+  }
+}
+
+/* BIG TITLE */
+.title {
+  position: absolute;
+  top: 40px;
+  text-align: center;
+  width: 100%;
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  background: linear-gradient(45deg, #ff00cc, #00f0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff00cc; }
+  to { text-shadow: 0 0 25px #00f0ff; }
+}
+
+/* TikTok Link */
+.tiktok-link {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  font-size: 28px;
+  text-decoration: none;
+  color: white;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.tiktok-link:hover {
+  transform: scale(1.2);
+  color: #ff0050;
+}
+
+/* MAIN CONTAINER */
+.container {
+  width: 450px;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 40px rgba(255,0,200,0.4);
+  animation: fadeIn 1s ease;
+  z-index: 5;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+select, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+}
+
+select {
+  background: #1f1f2e;
+  color: white;
+}
+
+button {
+  background: linear-gradient(45deg, #ff00cc, #3333ff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  min-height: 100px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.result.show {
+  opacity: 1;
+  transform: translateY(0);
+  animation: bounceIn 0.5s ease;
+}
+
+@keyframes bounceIn {
+  0% { transform: translateY(20px); opacity: 0; }
+  60% { transform: translateY(-10px); opacity: 1; }
+  100% { transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<div class="rain" id="rain"></div>
+
+<div class="title">FRODZ EDIT IDEA GENERATOR</div>
+
+<a href="https://www.tiktok.com/@frodz.aep" target="_blank" class="tiktok-link">
+  🎵
+</a>
+
+<div class="container">
+
+  <select id="showSelect">
+    <option value="">-- Pick a Show --</option>
+    <option value="prisonbreak">Prison Break</option>
+    <option value="dexter">Dexter</option>
+    <option value="breakingbad">Breaking Bad</option>
+    <option value="strangerthings">Stranger Things</option>
+    <option value="theboys">The Boys</option>
+    <option value="lastofus">The Last of Us</option>
+  </select>
+
+  <select id="styleSelect">
+    <option value="">-- Pick Edit Style --</option>
+    <option value="aesthetic">Aesthetic</option>
+    <option value="dark">Dark</option>
+    <option value="emotional">Emotional</option>
+    <option value="hype">Hype</option>
+    <option value="cinematic">Cinematic</option>
+    <option value="glitch">Glitch</option>
+  </select>
+
+  <button onclick="generateIdea()">Generate Idea</button>
+
+  <div class="result" id="result">
+    Your random edit idea will appear here...
+  </div>
+</div>
+
+<script>
+
+/* RAIN GENERATOR */
+function createRain() {
+  const rain = document.getElementById("rain");
+  for (let i = 0; i < 120; i++) {
+    const drop = document.createElement("div");
+    drop.classList.add("drop");
+    drop.style.left = Math.random() * 100 + "vw";
+    drop.style.animationDuration = (0.5 + Math.random()) + "s";
+    drop.style.opacity = Math.random();
+    drop.style.animationDelay = (Math.random() * 2) + "s";
+    rain.appendChild(drop);
+  }
+}
+createRain();
+
+/* QUOTE-BASED IDEA GENERATOR */
+
+const quotes = {
+  prisonbreak: [
+    "“I’m going to get you out of here… no matter what.” – Michael",
+    "“We need a plan. I have one.” – Michael",
+    "“There is a way out of every cage.” – Michael",
+    "“Freedom is a choice.” – Michael",
+    "“This isn’t just breaking out… it’s breaking the system.” – Michael"
+  ],
+  dexter: [
+    "“Tonight’s the night.” – Dexter Morgan",
+    "“I’m a very neat monster.” – Dexter Morgan",
+    "“Blood never lies.” – Dexter Morgan",
+    "“The only real question is: can you live with yourself?” – Dexter Morgan",
+    "“Surprise, motherfucker!” – Sergeant Doakes"
+  ],
+  breakingbad: [
+    "“I am the one who knocks!” – Walter White",
+    "“Say my name.” – Walter White",
+    "“Yeah, science!” – Jesse Pinkman",
+    "“No more half measures.” – Mike Ehrmantraut",
+    "“Stay out of my territory.” – Walter White"
+  ],
+  strangerthings: [
+    "“Friends don’t lie.” – Eleven",
+    "“If you die, I die.” – Eleven",
+    "“Mornings are for coffee and contemplation.” – Hopper",
+    "“You’re all so nerdy, it makes me physically ill.” – Erica Sinclair",
+    "“Children, children!” – Hopper"
+  ],
+  theboys: [
+    "“You are not a god. You are simply bad product.” – Homelander",
+    "“I’m the world’s greatest superhero.” – Homelander",
+    "“Buddy, you think you’re strong? You’re wearing a cape.” – Butcher",
+    "“Don’t be a cunt.” – Billy Butcher",
+    "“But I can be Harry Potter… or John Connor…” – Hughie"
+  ],
+  lastofus: [
+    "“Tell them that Ellie is the little girl who broke your fucking finger!” – Ellie",
+    "“It’s okay, baby girl. I got you.” – Joel",
+    "“After all we’ve been through… it can’t be for nothing.” – Ellie",
+    "“You mattered to me first.” – Ellie to Riley",
+    "“Because I love you.” – Joel"
+  ]
+};
+
+const styleExtras = {
+  aesthetic: "Use soft glow and smooth transitions.",
+  dark: "Add dark grading and dramatic bass.",
+  emotional: "Use sad piano music and fade cuts.",
+  hype: "Sync fast cuts to beat drops.",
+  cinematic: "Add cinematic bars and dramatic pacing.",
+  glitch: "Use RGB splits and screen shake effects."
+};
+
+function randomItem(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+function generateIdea() {
+  const show = document.getElementById("showSelect").value;
+  const style = document.getElementById("styleSelect").value;
+  const result = document.getElementById("result");
+
+  if (!show || !style) {
+    result.classList.remove("show");
+    result.innerHTML = "Select a show and style first!";
+    result.classList.add("show");
+    return;
+  }
+
+  const quote = randomItem(quotes[show]);
+  const styleDetail = styleExtras[style];
+
+  const idea = `
+    Create a <strong>${style}</strong> edit inspired by this iconic quote:<br>
+    "<em>${quote}</em>"<br>
+    ${styleDetail}
+  `;
+
+  result.classList.remove("show");
+  setTimeout(() => {
+    result.innerHTML = idea;
+    result.classList.add("show");
+  }, 200);
+}
+
+</script>
+
+</body>
+</html>
